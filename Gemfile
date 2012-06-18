@@ -4,6 +4,7 @@ gem 'rails', '3.2.6'
 gem 'pg'
 
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
