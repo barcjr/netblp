@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120618222010) do
+ActiveRecord::Schema.define(:version => 20120618222738) do
 
   create_table "books", :force => true do |t|
     t.string   "title",      :null => false
@@ -20,5 +20,21 @@ ActiveRecord::Schema.define(:version => 20120618222010) do
   end
 
   add_index "books", ["title"], :name => "index_books_on_title", :unique => true
+
+  create_table "contacts", :force => true do |t|
+    t.integer  "book_id",    :null => false
+    t.datetime "timestamp",  :null => false
+    t.float    "frequency"
+    t.string   "band",       :null => false
+    t.string   "mode",       :null => false
+    t.string   "callsign",   :null => false
+    t.string   "category",   :null => false
+    t.string   "section",    :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "contacts", ["book_id", "band", "mode", "callsign"], :name => "index_contacts_on_book_id_and_band_and_mode_and_callsign"
+  add_index "contacts", ["book_id", "callsign"], :name => "index_contacts_on_book_id_and_callsign"
 
 end

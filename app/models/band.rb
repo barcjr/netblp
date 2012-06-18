@@ -5,6 +5,10 @@ class Band
     @all ||= load_csv
   end
 
+  def self.names
+    all.map(&:name)
+  end
+
   def self.for_frequency frequency
     all.find{ |band| band.lower <= frequency && band.upper >= frequency }
   end

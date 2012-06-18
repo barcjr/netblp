@@ -5,6 +5,10 @@ class Section
     @all ||= load_csv
   end
 
+  def self.codes
+    all.map(&:code)
+  end
+
   def initialize values
     values.each do |k, v|
       self.send("#{k}=", v)
