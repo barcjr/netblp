@@ -5,7 +5,8 @@ template = """
 <div>
   <label>
     <span class="label">Frequency</span>
-    <input type="text" name="frequency">
+    <input type="text">
+    <input type="hidden" name="frequency">
   </label>
 </div>
 """
@@ -16,7 +17,10 @@ class Netblp.FrequencyWidget
     @element = $(template)
     @ui =
       label: @element.find "label"
-      input: @element.find "input"
+      input: @element.find "input[type='text']"
+      value: @element.find "input[type='hidden']"
+
+    @ui.input.on "change", @onChange
 
     @element.data "Netblp.widget", this
 
@@ -50,6 +54,10 @@ class Netblp.FrequencyWidget
 
   setFrequency: (frequency) =>
     @ui.input.val @formatFrequency(frequency)
+    @ui.input.change()
 
   getFrequency: =>
     @parseFrequency @ui.input.val()
+
+  onChange: (e) =>
+    @ui.value.val @getFrequency()
