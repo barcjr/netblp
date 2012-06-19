@@ -62,3 +62,7 @@ class Netblp.SectionWidget
       if section.code == value
         @ui.note.text section.name
         break
+
+  reset: =>
+    @ui.input.val ""
+    @update()

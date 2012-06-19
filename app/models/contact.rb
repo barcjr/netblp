@@ -34,7 +34,7 @@ class Contact < ActiveRecord::Base
 
   before_validation do
     self.timestamp ||= DateTime.now
-    self.band ||= Band.for_frequency(self.frequency).try(:name)
+    self.band ||= Band.for_frequency(self.frequency).try(:name) if self.frequency
   end
 
   def self.search params

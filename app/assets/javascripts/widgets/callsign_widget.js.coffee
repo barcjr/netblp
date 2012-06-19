@@ -20,3 +20,9 @@ class Netblp.CallsignWidget
     new Netblp.UpcaseBehavior @ui.input
 
     @element.data "Netblp.widget", this
+  
+  reset: =>
+    @ui.input.val ""
+
+  focus: =>
+    @ui.input.focus()

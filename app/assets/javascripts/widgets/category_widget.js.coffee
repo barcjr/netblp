@@ -21,3 +21,5 @@ class Netblp.CategoryWidget
 
     @element.data "Netblp.widget", this
 
+  reset: =>
+    @ui.input.val ""
