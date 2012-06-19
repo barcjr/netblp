@@ -3,6 +3,8 @@ class Contact < ActiveRecord::Base
   MODES = ["phone", "cw", "digital"]
   SECTIONS = Section.codes
 
+  default_scope order("timestamp DESC")
+
   belongs_to :book
 
   attr_accessible :timestamp, :frequency, :band, :mode
