@@ -1,4 +1,6 @@
 class Contact < ActiveRecord::Base
+  include FilterParams
+
   BANDS = Band.names
   MODES = ["phone", "cw", "digital"]
   SECTIONS = Section.codes
@@ -8,7 +10,7 @@ class Contact < ActiveRecord::Base
   belongs_to :book
 
   attr_accessible :timestamp, :frequency, :band, :mode
-  attr_accessible :callsign, :cateogry, :section
+  attr_accessible :callsign, :category, :section
 
   validates :timestamp,
     presence: true

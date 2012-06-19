@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.6'
 gem 'pg'
 
+gem 'jbuilder'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
