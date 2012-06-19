@@ -1,0 +1,55 @@
+$ = jQuery
+window.Netblp ||= {}
+
+template = """
+<div>
+  <label>
+    <span class="label">Frequency</span>
+    <input type="text" name="frequency">
+  </label>
+</div>
+"""
+
+
+class Netblp.FrequencyWidget
+  constructor: ->
+    @element = $(template)
+    @ui =
+      label: @element.find "label"
+      input: @element.find "input"
+
+    @element.data "Netblp.widget", this
+
+  formatFrequency: (frequency) ->
+    return frequency if frequency instanceof String
+
+    if frequency >= 1e9
+      suffix = "GHz"
+      number = frequency / 1e9
+    else if frequency >= 1e6
+      suffix = "MHz"
+      number = frequency / 1e6
+    else if frequency >= 1e3
+      suffix = "KHz"
+      number = frequency / 1e3
+    else
+      suffix = "Hz"
+      number = frequency
+
+    string = number.toFixed(6)
+    "#{string[0...-3]},#{string[-3..-1]} #{suffix}"
+
+    
+  parseFrequency: (string) ->
+    number = parseFloat(string.replace /[^.\d]/, "")
+    switch string[-3..-1]
+      when "GHz" then number *= 1e9
+      when "MHz" then number *= 1e6
+      when "KHz" then number *= 1e3
+    return number
+
+  setFrequency: (frequency) =>
+    @ui.input.val @formatFrequency(frequency)
+
+  getFrequency: =>
+    @parseFrequency @ui.input.val()

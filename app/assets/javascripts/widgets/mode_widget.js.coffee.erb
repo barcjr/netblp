@@ -1,0 +1,28 @@
+$ = jQuery
+window.Netblp ||= {}
+
+template = """
+<div>
+  <label>
+    <span class="label">Mode</span>
+    <select name="mode"></select>
+  </label>
+</div>
+"""
+
+modes = <%= JSON.dump Contact::MODES %>
+
+class Netblp.ModeWidget
+  constructor: ->
+    @element = $(template)
+    @ui =
+      label: @element.find "label"
+      input: @element.find "select"
+
+    for mode in modes
+      option = $ "<option></option>"
+      option.attr "value", mode
+      option.text mode
+      option.appendTo @ui.input
+
+    @element.data "Netblp.widget", this

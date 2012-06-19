@@ -1,0 +1,28 @@
+$ = jQuery
+window.Netblp ||= {}
+
+template = """
+<div>
+  <label>
+    <span class="label">Band</span>
+    <select name="band"></select>
+  </label>
+</div>
+"""
+
+bands = <%= JSON.dump Contact::BANDS %>
+
+class Netblp.BandWidget
+  constructor: ->
+    @element = $(template)
+    @ui =
+      label: @element.find "label"
+      input: @element.find "select"
+
+    for band in bands
+      option = $ "<option></option>"
+      option.attr "value", band
+      option.text band
+      option.appendTo @ui.input
+
+    @element.data "Netblp.widget", this

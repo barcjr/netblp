@@ -1,0 +1,64 @@
+$ = jQuery
+window.Netblp ||= {}
+
+template = """
+<div>
+  <label>
+    <span class="label">Section</span>
+    <input type="text" name="section">
+  </label>
+  <span class="note"></span>
+</div>
+"""
+
+sections = <%= JSON.dump Section.all %>
+
+class Netblp.SectionWidget
+  constructor: ->
+    @element = $(template)
+    @ui =
+      label: @element.find "label"
+      input: @element.find "input"
+      note:  @element.find ".note"
+
+    new Netblp.UpcaseBehavior @ui.input
+
+    @ui.input.autocomplete
+      delay: 50
+      source: @query
+      select: @onSelect
+
+    @ui.input.on "change keyup", @onChange
+
+    @element.data "Netblp.widget", this
+
+
+  query: (query, callback) =>
+    term = query.term.toUpperCase()
+
+    results = sections.filter (section) =>
+      return true if section.code[0...term.length].toUpperCase() == term
+      return true if section.name[0...term.length].toUpperCase() == term
+      return false
+    
+    results = results.map (section) =>
+      result =
+        label: "#{section.code} - #{section.name}"
+        value: section.code
+
+    callback results
+
+  onChange: =>
+    @update()
+
+  onSelect: (e, ui) =>
+    @update ui.item.value
+
+  update: (value) =>
+    value ||= @ui.input.val().toUpperCase()
+    @ui.note.text ""
+
+    for section in sections
+      if section.code == value
+        @ui.note.text section.name
+        break
