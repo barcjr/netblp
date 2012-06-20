@@ -31,8 +31,9 @@ class Netblp.ContactEntryView
       submit: @onSubmit
       keydown: @onEsc
 
-    @ui.callsign.element.on
-      callsigncomplete: @onComplete
+    @ui.callsign.ui.input.on
+      blur: @doComplete
+      keydown: => @ui.note.text ""
 
     @ui.band.ui.input.on "change", @updateBandMode
     @ui.mode.ui.input.on "change", @updateBandMode
@@ -47,10 +48,14 @@ class Netblp.ContactEntryView
     @ui.category.reset()
     @ui.section.reset()
 
+    @ui.note.text ""
+
     @ui.callsign.focus()
 
   updateBandMode: =>
-    @ui.callsign.updateBandMode @ui.band.ui.input.val(), @ui.mode.ui.input.val()
+    @band = @ui.band.ui.input.val()
+    @mode = @ui.mode.ui.input.val()
+    @ui.callsign.updateBandMode @band, @mode
 
   onSubmit: (e) =>
     e.preventDefault()
@@ -102,13 +107,15 @@ class Netblp.ContactEntryView
       @ui.exchange[index].focus()
     return
   
-  onComplete: (e) =>
-    station = @ui.callsign.getStation()
-    if station.dupe
-      setTimeout @reset, 0
-      @ui.note.text "DUPE!"
-      setTimeout((=> @ui.note.text ""), 1500)
-      return
-    @ui.category.ui.input.val(station.category).change()
-    @ui.section.ui.input.val(station.section).change()
+  doComplete: =>
+    callsign = @ui.callsign.ui.input.val().toUpperCase()
+    $.ajax
+      type: "get"
+      url: "/v1#{location.pathname}/stations/#{callsign}"
+      data: {band: @band, mode: @mode}
+      success: (data) =>
+        @ui.category.ui.input.val(data.category).change()
+        @ui.section.ui.input.val(data.section).change()
+        if data.dupe
+          @ui.note.text "DUPE! Press ESC to clear"
     return

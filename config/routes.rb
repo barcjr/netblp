@@ -5,7 +5,7 @@ Netblp::Application.routes.draw do
     resources :books, except: [:new, :edit] do
       resources :contacts, except: [:new, :edit]
       resources :operators, only: [:index, :create]
-      resources :stations, only: [:index]
+      resources :stations, only: [:index, :show]
     end
   end
 end

@@ -20,7 +20,8 @@ class Contact < ActiveRecord::Base
   validates :mode,
     inclusion: MODES
   validates :callsign,
-    format: %r{^[A-Z0-9]+$}
+    format: %r{^[A-Z0-9]+$},
+    uniqueness: {scope: [:book_id, :band, :mode], message: "is a dupe"}
   validates :category,
     format: %r{^\d+[A-F]$}
   validates :section,
