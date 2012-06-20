@@ -23,15 +23,16 @@ class Netblp.CallsignWidget
 
     @ui.input.autocomplete
       source: @query
-      select: @onSelect
       position:
         my: "left top"
         at: "right top"
 
-    @ui.input.on
-      blur: @onBlur
-      focus: => @ui.input.autocomplete("search")
-  
+    @ui.input.on "focus", =>
+      @ui.input.autocomplete("search")
+    @ui.input.on "autocompleteclose", =>
+      @closing = true
+      setTimeout((=> @closing = false), 100)
+
   reset: =>
     @ui.input.val ""
 
@@ -48,12 +49,13 @@ class Netblp.CallsignWidget
       url: "/v1#{location.pathname}/stations"
       data: {partial: term, band: @band, mode: @mode, limit: 10}
       success: (data) =>
+        return if @closing
         @stations = {}
         @stations[station.callsign] = station for station in data.stations
         callback(@formatCompletion(station) for callsign, station of data.stations)
         return
       error: =>
-        alert "Could not load stations for dupe check!"
+        alert "Could not load stations for callsign auto-complete!"
         return
 
   formatCompletion: (station) ->
