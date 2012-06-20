@@ -29,6 +29,9 @@ class Netblp.ContactEntryView
       submit: @onSubmit
       keydown: @onEsc
 
+    @ui.callsign.element.on
+      callsigncomplete: @onComplete
+
   addWidget: (name, klass, options) =>
     @ui[name] = new klass(options)
     @ui[name].element.appendTo @element
@@ -51,6 +54,7 @@ class Netblp.ContactEntryView
 
   onSuccess: (data) =>
     @reset()
+    return
 
   onError: (xhr) =>
     try
@@ -62,10 +66,12 @@ class Netblp.ContactEntryView
       alert message
     catch e
       alert "Could not save contact (Unknown Reason)!"
+    return
 
   onEsc: (e) =>
     if e.which == 27
       @reset()
+    return
 
   onTab: (e) =>
     if e.which == 9
@@ -79,3 +85,10 @@ class Netblp.ContactEntryView
       index = @ui.exchange.length - 1 if index < 0
 
       @ui.exchange[index].focus()
+    return
+  
+  onComplete: (e) =>
+    station = @ui.callsign.getStation()
+    @ui.category.ui.input.val station.category
+    @ui.section.ui.input.val station.section
+    return
