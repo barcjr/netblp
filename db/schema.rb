@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120620030738) do
+ActiveRecord::Schema.define(:version => 20120620120437) do
 
   create_table "books", :force => true do |t|
     t.string   "title",      :null => false
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(:version => 20120620030738) do
   end
 
   add_index "contacts", ["book_id", "band", "mode", "callsign"], :name => "index_contacts_on_book_id_and_band_and_mode_and_callsign"
-  add_index "contacts", ["book_id", "callsign"], :name => "index_contacts_on_book_id_and_callsign"
+  add_index "contacts", ["book_id", "callsign", "category", "section"], :name => "index_contacts_on_book_id_and_callsign_and_category_and_section"
 
   create_table "operators", :force => true do |t|
     t.integer  "book_id",    :null => false
