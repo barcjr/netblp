@@ -23,3 +23,6 @@ class Netblp.CategoryWidget
 
   reset: =>
     @ui.input.val ""
+
+  focus: =>
+    @ui.input.focus()

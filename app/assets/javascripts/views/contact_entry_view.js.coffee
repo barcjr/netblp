@@ -19,6 +19,9 @@ class Netblp.ContactEntryView
     @addWidget  "section",    Netblp.SectionWidget
     @element.append "<input type='submit' value='Log'>"
 
+    @ui.exchange = $([@ui.callsign, @ui.category, @ui.section].map (widget) -> widget.ui.input[0])
+    @ui.exchange.on "keydown", @onTab
+
     @element.on
       submit: @onSubmit
 
@@ -47,3 +50,16 @@ class Netblp.ContactEntryView
 
   onError: () =>
     alert "Could not save contact!"
+
+  onTab: (e) =>
+    if e.which == 9
+      e.preventDefault()
+      index = @ui.exchange.index e.delegateTarget
+      if e.shiftKey
+        index--
+      else
+        index++
+      index = 0 if index >= @ui.exchange.length
+      index = @ui.exchange.length - 1 if index < 0
+
+      @ui.exchange[index].focus()
