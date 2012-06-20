@@ -1,9 +1,11 @@
 class V1::StationsController < ApplicationController
   respond_to :json
 
+  before_filter{ @book = Book.find(params[:book_id]) }
+
   def index
-    @dupes = Contact.where(band: params[:band], mode: params[:mode]).reorder(:callsign).uniq.pluck(:callsign).to_set
-    @stations = Contact.select([:callsign, :category, :section]).where("callsign LIKE ?", "#{params[:partial]}%").reorder(:callsign).uniq.map do |station|
+    @dupes = @book.contacts.where(band: params[:band], mode: params[:mode]).reorder(:callsign).uniq.pluck(:callsign).to_set
+    @stations = @book.contacts.select([:callsign, :category, :section]).where("callsign LIKE ?", "#{params[:partial]}%").reorder(:callsign).uniq.map do |station|
 
       {callsign: station.callsign, category: station.category, section: station.section, dupe: @dupes.include?(station.callsign)}
     end
@@ -11,12 +13,12 @@ class V1::StationsController < ApplicationController
   end
 
   def show
-    @station = Contact.where(callsign: params[:id]).select([:callsign, :category, :section]).first!
+    @station = @book.contacts.where(callsign: params[:id]).select([:callsign, :category, :section]).first!
     render json: {
       callsign: @station.callsign,
       category: @station.category,
       section: @station.section,
-      dupe: Contact.where(callsign: params[:id], band: params[:band], mode: params[:mode]).exists?
+      dupe: @book.contacts.where(callsign: params[:id], band: params[:band], mode: params[:mode]).exists?
     }
   end
 end
