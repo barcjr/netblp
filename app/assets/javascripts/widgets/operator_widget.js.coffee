@@ -45,5 +45,8 @@ class Netblp.OperatorWidget
 
   onSelect: (e, ui) =>
     if ui.item.value == "Add New Operator"
-      Netblp.AddOperatorView.open()
+      Netblp.AddOperatorView.open(@setOperator)
       return false
+
+  setOperator: (name) =>
+    @ui.input.val name

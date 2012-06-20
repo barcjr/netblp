@@ -56,10 +56,11 @@ class Netblp.AddOperatorView
       success: @onSuccess
       error: @onError
 
-  open: =>
+  open: (@callback) =>
     @element.dialog "open"
 
   close: =>
+    @callback = null
     @reset()
     @element.dialog "close"
 
@@ -67,8 +68,9 @@ class Netblp.AddOperatorView
     @ui.form.find("input[type=text]").val ""
     true
 
-  onSuccess: =>
-    alert "Operator Added!"
+  onSuccess: (data) =>
+    if @callback
+      @callback data.name
     @close()
     true
 
