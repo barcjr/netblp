@@ -1,7 +1,7 @@
 $ = jQuery
 window.Netblp ||= {}
 
-template = """<form></form>"""
+template = """<form autocomplete="off"></form>"""
 
 class Netblp.ContactEntryView
   constructor: ->
@@ -27,6 +27,7 @@ class Netblp.ContactEntryView
 
     @element.on
       submit: @onSubmit
+      keydown: @onEsc
 
   addWidget: (name, klass, options) =>
     @ui[name] = new klass(options)
@@ -61,6 +62,10 @@ class Netblp.ContactEntryView
       alert message
     catch e
       alert "Could not save contact (Unknown Reason)!"
+
+  onEsc: (e) =>
+    if e.which == 27
+      @reset()
 
   onTab: (e) =>
     if e.which == 9

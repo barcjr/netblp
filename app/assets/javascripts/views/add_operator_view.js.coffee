@@ -4,9 +4,9 @@ window.Netblp ||= {}
 template = """
 <div title="Add New Operator">
   <form autocomplete="off">
-    <label>First Name<input type="text" name="first_name"></label>
-    <label>Last Initial<input type="text" name="last_initial" maxlength=1></label>
-    <label>Callsign (optional)<input type="text" name="callsign"></label>
+    <div><label>First Name<input type="text" name="first_name"></label></div>
+    <div><label>Last Initial<input type="text" name="last_initial" maxlength=1></label></div>
+    <div><label>Callsign (optional)<input type="text" name="callsign"></label></div>
     <input type="submit" value="Add Operator">
   </form>
 </div>
