@@ -9,7 +9,7 @@ class V1::RadiosController < ApplicationController
   end
 
   def show
-    @radio = @book.radios.find(params[:id])
+    @radio = @book.radios.find_by_name!(params[:id])
     respond_with @radio
   end
 
@@ -19,8 +19,9 @@ class V1::RadiosController < ApplicationController
   end
 
   def update
-    @radio = @book.radios.find(params[:id])
+    @radio = @book.radios.find_by_name!(params[:id])
     @radio.update_attributes Radio.filter_params(params)
+    @radio.touch
     respond_with @radio
   end
 end

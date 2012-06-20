@@ -1,1 +1,1 @@
-json.(radio, :id, :name, :frequency, :band)
+json.(radio, :name, :frequency, :band, :stale)

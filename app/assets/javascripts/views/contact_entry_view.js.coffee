@@ -10,6 +10,7 @@ class Netblp.ContactEntryView
 
     @element.data "Netblp.view", this
 
+    @addWidget  "radio",      Netblp.RadioWidget, {form: this}
     @addWidget  "frequency",  Netblp.FrequencyWidget
     @addWidget  "band",       Netblp.BandWidget
     @addWidget  "mode",       Netblp.ModeWidget
@@ -120,3 +121,7 @@ class Netblp.ContactEntryView
         if data.dupe
           @ui.note.text "DUPE! Press ESC to clear"
     return
+
+  updateRadio: (frequency, band) =>
+    @ui.frequency.setFrequency frequency if frequency
+    @ui.band.ui.input.val(band).change() if band
