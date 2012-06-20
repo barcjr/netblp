@@ -10,6 +10,7 @@ class Contact < ActiveRecord::Base
   belongs_to :book
 
   attr_accessible :timestamp, :frequency, :band, :mode
+  attr_accessible :primary_operator, :secondary_operator
   attr_accessible :callsign, :category, :section
 
   validates :timestamp,
@@ -30,6 +31,11 @@ class Contact < ActiveRecord::Base
     unless Band.for_frequency(frequency).try(:name) == band
       errors.add(:band, "does not match frequency")
     end
+  end
+
+  validate do
+    errors.add(:primary_operator, "does not exist") unless book.operators.find_by_name(primary_operator)
+    errors.add(:secondary_operator, "does not exist") unless book.operators.find_by_name(secondary_operator)
   end
 
   before_validation do

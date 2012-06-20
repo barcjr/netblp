@@ -4,6 +4,12 @@ class V1::OperatorsController < ApplicationController
   before_filter{ @book = Book.find(params[:book_id]) }
 
   def index
-    render json: {operators: [{name: "Hargobind K. (AB0YL)"}, {name: "David S. (KC0DDR)"}]}
+    @operators = @book.operators
+    respond_with @operators
+  end
+
+  def create
+    @operator = @book.operators.create(name: params[:name])
+    respond_with @operator
   end
 end
