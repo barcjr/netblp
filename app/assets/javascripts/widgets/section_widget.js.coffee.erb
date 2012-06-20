@@ -32,6 +32,8 @@ class Netblp.SectionWidget
         at: "right top"
 
     @ui.input.on "change keyup", @onChange
+    @ui.input.on "focus", =>
+      @ui.input.autocomplete("search")
 
     @element.data "Netblp.widget", this
 

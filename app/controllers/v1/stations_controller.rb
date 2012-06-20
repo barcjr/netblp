@@ -5,7 +5,7 @@ class V1::StationsController < ApplicationController
 
   def index
     @dupes = @book.contacts.where(band: params[:band], mode: params[:mode]).reorder(:callsign).uniq.pluck(:callsign).to_set
-    @stations = @book.contacts.select([:callsign, :category, :section]).where("callsign LIKE ?", "#{params[:partial]}%").reorder(:callsign).uniq.map do |station|
+    @stations = @book.contacts.select([:callsign, :category, :section]).where("callsign LIKE ?", "#{params[:partial]}%").reorder(:callsign).limit(params[:limit]).uniq.map do |station|
 
       {callsign: station.callsign, category: station.category, section: station.section, dupe: @dupes.include?(station.callsign)}
     end

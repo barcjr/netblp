@@ -29,6 +29,9 @@ class Netblp.OperatorWidget
         at: "right top"
 
     @ui.input.on "focus", @refresh
+    @ui.input.on "focus", =>
+      @ui.input.select()
+      @ui.input.autocomplete("search")
     @ui.input.on "autocompleteselect", @onSelect
 
     @element.data "Netblp.widget", this

@@ -30,6 +30,7 @@ class Netblp.CallsignWidget
 
     @ui.input.on
       blur: @onBlur
+      focus: => @ui.input.autocomplete("search")
   
   reset: =>
     @ui.input.val ""
@@ -39,13 +40,13 @@ class Netblp.CallsignWidget
 
   query: (query, callback) =>
     term = query.term.toUpperCase()
-    unless term.match(/\d/)
+    unless term.length > 0
       callback []
       return
     $.ajax
       type: "get"
       url: "/v1#{location.pathname}/stations"
-      data: {partial: term, band: @band, mode: @mode}
+      data: {partial: term, band: @band, mode: @mode, limit: 10}
       success: (data) =>
         @stations = {}
         @stations[station.callsign] = station for station in data.stations
