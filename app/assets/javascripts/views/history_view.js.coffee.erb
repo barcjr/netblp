@@ -7,6 +7,7 @@ template = """
   <table>
     <thead>
       <tr>
+        <th>Timestamp</th>
         <th>Callsign</th>
         <th>Category</th>
         <th>Section</th>
@@ -22,6 +23,8 @@ template = """
 </div>
 """
 
+sections = <%= JSON.dump Hash[Section.all.map{ |section| [section.code, section.name] }] %>
+
 class Netblp.HistoryView
   constructor: ->
     @element = $ template
@@ -32,6 +35,7 @@ class Netblp.HistoryView
 
     @element.data "Netblp.view", this
 
+    setInterval @refresh, 5000
     @refresh()
 
   refresh: =>
@@ -53,9 +57,10 @@ class Netblp.HistoryView
 
   buildRow: (contact) =>
     row = $ "<tr></tr>"
+    $("<td></td>").text(contact.timestamp).appendTo row
     $("<td></td>").text(contact.callsign).appendTo row
     $("<td></td>").text(contact.category).appendTo row
-    $("<td></td>").text(contact.section).appendTo row
+    $("<td></td>").text(contact.section).attr("title", sections[contact.section]).appendTo row
     $("<td></td>").text(contact.band).appendTo row
     $("<td></td>").text(contact.mode).appendTo row
     $("<td></td>").text(contact.primary_operator).appendTo row

@@ -24,6 +24,9 @@ class Netblp.CallsignWidget
     @ui.input.autocomplete
       source: @query
       select: @onSelect
+      position:
+        my: "left top"
+        at: "right top"
 
     @ui.input.on
       blur: @onBlur

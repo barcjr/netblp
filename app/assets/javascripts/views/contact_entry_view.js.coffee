@@ -73,6 +73,7 @@ class Netblp.ContactEntryView
       section: data.section
       dupe: true
     @reset()
+    @element.trigger "logged"
     return
 
   onError: (xhr) =>

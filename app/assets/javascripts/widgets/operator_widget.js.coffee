@@ -24,6 +24,9 @@ class Netblp.OperatorWidget
       autoFocus: true
       delay: 50
       source: @query
+      position:
+        my: "left top"
+        at: "right top"
 
     @ui.input.on "focus", @refresh
     @ui.input.on "autocompleteselect", @onSelect

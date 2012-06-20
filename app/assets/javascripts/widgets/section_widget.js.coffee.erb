@@ -7,7 +7,7 @@ template = """
     <span class="label">Section</span>
     <input type="text" name="section">
   </label>
-  <span class="note"></span>
+  <div><span class="label"></span><span class="note"></span></div>
 </div>
 """
 
@@ -27,6 +27,9 @@ class Netblp.SectionWidget
       delay: 50
       source: @query
       select: @onSelect
+      position:
+        my: "left top"
+        at: "right top"
 
     @ui.input.on "change keyup", @onChange
 
