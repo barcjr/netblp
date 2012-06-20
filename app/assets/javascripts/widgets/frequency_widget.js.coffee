@@ -26,6 +26,7 @@ class Netblp.FrequencyWidget
 
   formatFrequency: (frequency) ->
     return frequency if frequency instanceof String
+    return "" if isNaN frequency
 
     if frequency >= 1e9
       suffix = "GHz"
@@ -50,6 +51,7 @@ class Netblp.FrequencyWidget
       when "GHz" then number *= 1e9
       when "MHz" then number *= 1e6
       when "KHz" then number *= 1e3
+      else number *= 1e6 # Default to MHz
     return number
 
   setFrequency: (frequency) =>
@@ -60,4 +62,6 @@ class Netblp.FrequencyWidget
     @parseFrequency @ui.input.val()
 
   onChange: (e) =>
-    @ui.value.val @getFrequency()
+    freq = @getFrequency()
+    @ui.input.val @formatFrequency(freq)
+    @ui.value.val(if isNaN(freq) then "" else freq)
