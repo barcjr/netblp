@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120620120437) do
+ActiveRecord::Schema.define(:version => 20120620183557) do
 
   create_table "books", :force => true do |t|
     t.string   "title",      :null => false
@@ -47,5 +47,15 @@ ActiveRecord::Schema.define(:version => 20120620120437) do
   end
 
   add_index "operators", ["book_id", "name"], :name => "index_operators_on_book_id_and_name"
+
+  create_table "radios", :force => true do |t|
+    t.integer  "book_id",    :null => false
+    t.string   "name",       :null => false
+    t.float    "frequency"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "radios", ["book_id", "name"], :name => "index_radios_on_book_id_and_name", :unique => true
 
 end

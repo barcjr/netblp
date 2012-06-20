@@ -3,6 +3,7 @@ class Book < ActiveRecord::Base
 
   has_many :contacts, dependent: :destroy
   has_many :operators, dependent: :destroy
+  has_many :radios, dependent: :destroy
 
   attr_accessible :title
 

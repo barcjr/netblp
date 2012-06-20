@@ -6,6 +6,7 @@ Netblp::Application.routes.draw do
       resources :contacts, except: [:new, :edit]
       resources :operators, only: [:index, :create]
       resources :stations, only: [:index, :show]
+      resources :radios, except: [:new, :edit, :destroy]
     end
   end
 end
