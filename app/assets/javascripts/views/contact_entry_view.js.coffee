@@ -33,6 +33,7 @@ class Netblp.ContactEntryView
 
     @ui.callsign.ui.input.on
       blur: @doComplete
+      autocompleteclose: @doComplete
       keydown: => @ui.note.text ""
 
     @ui.band.ui.input.on "change", @updateBandMode
