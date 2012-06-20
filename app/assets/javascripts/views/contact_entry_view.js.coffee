@@ -17,6 +17,8 @@ class Netblp.ContactEntryView
     @addWidget  "operator",   Netblp.OperatorWidget, {label: "Operator", key: "primary_operator"}
     @addWidget  "logger",     Netblp.OperatorWidget, {label: "Logger", key: "secondary_operator"}
     @element.append "<hr>"
+    @element.append "<span class='note'></span>"
+    @ui.note = @element.find ".note"
     @addWidget  "callsign",   Netblp.CallsignWidget
     @addWidget  "category",   Netblp.CategoryWidget
     @addWidget  "section",    Netblp.SectionWidget
@@ -32,6 +34,10 @@ class Netblp.ContactEntryView
     @ui.callsign.element.on
       callsigncomplete: @onComplete
 
+    @ui.band.ui.input.on "change", @updateBandMode
+    @ui.mode.ui.input.on "change", @updateBandMode
+    @updateBandMode()
+
   addWidget: (name, klass, options) =>
     @ui[name] = new klass(options)
     @ui[name].element.appendTo @element
@@ -43,6 +49,9 @@ class Netblp.ContactEntryView
 
     @ui.callsign.focus()
 
+  updateBandMode: =>
+    @ui.callsign.updateBandMode @ui.band.ui.input.val(), @ui.mode.ui.input.val()
+
   onSubmit: (e) =>
     e.preventDefault()
     $.ajax
@@ -53,6 +62,12 @@ class Netblp.ContactEntryView
       error: @onError
 
   onSuccess: (data) =>
+    station =
+      callsign: data.callsign
+      cateogry: data.category
+      section: data.section
+      dupe: true
+    @ui.callsign.add station
     @reset()
     return
 
@@ -89,6 +104,11 @@ class Netblp.ContactEntryView
   
   onComplete: (e) =>
     station = @ui.callsign.getStation()
-    @ui.category.ui.input.val station.category
-    @ui.section.ui.input.val station.section
+    if station.dupe
+      setTimeout @reset, 0
+      @ui.note.text "DUPE!"
+      setTimeout((=> @ui.note.text ""), 1500)
+      return
+    @ui.category.ui.input.val(station.category).change()
+    @ui.section.ui.input.val(station.section).change()
     return

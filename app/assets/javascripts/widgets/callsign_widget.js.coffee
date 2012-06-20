@@ -21,7 +21,7 @@ class Netblp.CallsignWidget
 
     @element.data "Netblp.widget", this
 
-    @refreshStations()
+    setInterval @refreshStations, 10000
 
     @ui.input.autocomplete
       source: @query
@@ -38,25 +38,26 @@ class Netblp.CallsignWidget
 
   query: (query, callback) =>
     term = query.term.toUpperCase()
-    callback({value: callsign, label: "#{callsign} #{station.category} #{station.section}"} for callsign, station of @stations when callsign[0...term.length].toUpperCase() == term)
+    callback({value: callsign, label: "#{callsign} #{station.category} #{station.section}#{if station.dupe then " - DUPE!" else ""}"} for callsign, station of @stations when callsign[0...term.length].toUpperCase() == term)
+
+  updateBandMode: (@band, @mode) =>
+    @refreshStations()
 
   refreshStations: =>
     @xhr = $.ajax
       type: "get"
       url: "/v1#{location.pathname}/stations"
-      data: {limit: -1}
+      data: {limit: -1, band: @band, mode: @mode}
       success: @onSuccess
       error: @onError
 
   onSuccess: (data) =>
-    setTimeout @refreshStations, 10000
     @stations = {}
     for station in data.stations
       @stations[station.callsign] = station
     return
 
   onError: () =>
-    setTimeout @refreshStations, 10000
     alert "Stations failed to load!"
     return
 
@@ -68,8 +69,8 @@ class Netblp.CallsignWidget
     @ui.input.val ui.item.value
     @onBlur(e)
 
-  onBlur: =>
-    @element.trigger "callsigncomplete" if @stations[@ui.input.val()]
+  onBlur: (e) =>
+    @element.trigger "callsigncomplete", e if @stations[@ui.input.val()]
     return
 
   getStation: =>
