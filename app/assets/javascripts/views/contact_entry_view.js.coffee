@@ -18,8 +18,7 @@ class Netblp.ContactEntryView
     @addWidget  "operator",   Netblp.OperatorWidget, {label: "Operator", key: "primary_operator"}
     @addWidget  "logger",     Netblp.OperatorWidget, {label: "Logger", key: "secondary_operator"}
     @element.append "<hr>"
-    @element.append "<span class='note'></span>"
-    @ui.note = @element.find ".note"
+    @ui.note = $("<span class='note'></span>").appendTo @element
     @addWidget  "callsign",   Netblp.CallsignWidget
     @addWidget  "category",   Netblp.CategoryWidget
     @addWidget  "section",    Netblp.SectionWidget
