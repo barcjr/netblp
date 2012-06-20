@@ -48,8 +48,16 @@ class Netblp.ContactEntryView
   onSuccess: (data) =>
     @reset()
 
-  onError: () =>
-    alert "Could not save contact!"
+  onError: (xhr) =>
+    try
+      errors = JSON.parse(xhr.responseText).errors
+      message = "Could not save contact:\n"
+      for key, msgs of errors
+        for msg in msgs
+          message += "#{key} #{msg}\n"
+      alert message
+    catch e
+      alert "Could not save contact (Unknown Reason)!"
 
   onTab: (e) =>
     if e.which == 9
