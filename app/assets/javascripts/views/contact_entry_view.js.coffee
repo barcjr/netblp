@@ -72,7 +72,6 @@ class Netblp.ContactEntryView
       cateogry: data.category
       section: data.section
       dupe: true
-    @ui.callsign.add station
     @reset()
     return
 
@@ -109,6 +108,7 @@ class Netblp.ContactEntryView
   
   doComplete: =>
     callsign = @ui.callsign.ui.input.val().toUpperCase()
+    return unless callsign.match /\d/
     $.ajax
       type: "get"
       url: "/v1#{location.pathname}/stations/#{callsign}"
