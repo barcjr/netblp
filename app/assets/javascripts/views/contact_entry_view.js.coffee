@@ -14,6 +14,9 @@ class Netblp.ContactEntryView
     @addWidget  "band",       Netblp.BandWidget
     @addWidget  "mode",       Netblp.ModeWidget
     @element.append "<hr>"
+    @addWidget  "operator",   Netblp.OperatorWidget, {label: "Operator", key: "primary_operator"}
+    @addWidget  "logger",     Netblp.OperatorWidget, {label: "Logger", key: "secondary_operator"}
+    @element.append "<hr>"
     @addWidget  "callsign",   Netblp.CallsignWidget
     @addWidget  "category",   Netblp.CategoryWidget
     @addWidget  "section",    Netblp.SectionWidget
@@ -25,8 +28,8 @@ class Netblp.ContactEntryView
     @element.on
       submit: @onSubmit
 
-  addWidget: (name, klass) =>
-    @ui[name] = new klass
+  addWidget: (name, klass, options) =>
+    @ui[name] = new klass(options)
     @ui[name].element.appendTo @element
 
   reset: =>
