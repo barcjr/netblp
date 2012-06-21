@@ -24,6 +24,7 @@ class Netblp.OperatorWidget
       autoFocus: true
       delay: 50
       source: @query
+      close: @onClose
       position:
         my: "left top"
         at: "right top"
@@ -45,9 +46,14 @@ class Netblp.OperatorWidget
   query: (query, callback) =>
     term = query.term.toUpperCase()
     @xhr.done (data) =>
+      return if @closing
       result = (operator.name for operator in data.operators when operator.name.toUpperCase().indexOf(term) != -1)
       result.push("Add New Operator")
       callback result
+
+  onClose: =>
+    @closing = true
+    setTimeout((=> @closing = false), 100)
 
   onSelect: (e, ui) =>
     if ui.item.value == "Add New Operator"
