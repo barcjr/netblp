@@ -1,0 +1,32 @@
+<h1>Contacts</h1>
+
+<div class="pagination-info"><%= raw page_entries_info(@contacts) %></div>
+<%= paginate @contacts %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Timestamp</th>
+      <th>Callsign</th>
+      <th>Category</th>
+      <th>Section</th>
+      <th>Band</th>
+      <th>Mode</th>
+      <th>Operator</th>
+      <th>Logger</th>
+  </thead>
+  <tbody>
+    <% @contacts.each do |contact| %>
+      <tr>
+        <td><%= contact.timestamp %></td>
+        <td><%= contact.callsign %></td>
+        <td><%= contact.category %></td>
+        <td><%= contact.section %></td>
+        <td><%= contact.band %></td>
+        <td><%= contact.mode %></td>
+        <td><%= contact.primary_operator %></td>
+        <td><%= contact.secondary_operator %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

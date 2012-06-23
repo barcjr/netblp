@@ -6,6 +6,7 @@ gem 'pg'
 gem 'jbuilder'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
+gem 'kaminari'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'

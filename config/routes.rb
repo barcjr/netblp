@@ -1,5 +1,7 @@
 Netblp::Application.routes.draw do
-  resources :books, only: [:show]
+  resources :books, only: [:show] do
+    resources :contacts, only: [:index]
+  end
 
   namespace :v1 do
     resources :books, except: [:new, :edit] do
