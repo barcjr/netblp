@@ -33,6 +33,8 @@ class Netblp.HistoryView
     @ui = {}
     @ui.body = @element.find("tbody").first()
     @ui.note = @element.find(".note").first()
+    @ui.error = $("<div></div>").hide()
+    $("body").prepend(@ui.error)
     @contacts = {}
 
     @element.data "Netblp.view", this
@@ -49,13 +51,16 @@ class Netblp.HistoryView
       error: @onError
 
   onSuccess: (data) =>
+    @ui.error.hide()
     @ui.body.empty()
     for contact in data.contacts
       @ui.body.append(@buildRow contact)
     @ui.note.text "Total Contacts: #{data.count}"
 
   onError: =>
-    alert "Failed to update history"
+    @ui.error.addClass "warning"
+    @ui.error.text "Failed to update history"
+    @ui.error.show()
 
   buildRow: (contact) =>
     row = $ "<tr></tr>"

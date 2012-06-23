@@ -43,7 +43,7 @@ class Netblp.RadioWidget
     @ui.input.val window.localStorage["blpRadio"] if window.localStorage["blpRadio"]
   
   onError: =>
-    alert "Could not load radios"
+    @ui.note.text "Could not load radios"
 
   sync: =>
     radio = @ui.input.val()
@@ -61,4 +61,4 @@ class Netblp.RadioWidget
     @ui.form.updateRadio data.frequency, data.band
 
   onSyncError: =>
-    alert "Could not fetch radio information"
+    @ui.note.text "Could not fetch radio information"
