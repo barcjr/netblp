@@ -57,6 +57,7 @@ class Netblp.ContactEntryView
     @band = @ui.band.ui.input.val()
     @mode = @ui.mode.ui.input.val()
     @ui.callsign.updateBandMode @band, @mode
+    @element.trigger "bandmodechange", {band: @band, mode: @mode}
 
   onSubmit: (e) =>
     e.preventDefault()

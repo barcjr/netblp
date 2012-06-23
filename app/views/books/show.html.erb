@@ -5,6 +5,7 @@
     var from, history;
     (form = new Netblp.ContactEntryView).element.appendTo("#contact-entry");
     (history = new Netblp.HistoryView).element.appendTo("#full-history");
+    (bandlimit = new Netblp.BandLimitWidget).element.prependTo("body");
     form.element.on("logged", function(e){
       history.refresh();
     });

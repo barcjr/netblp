@@ -1,0 +1,61 @@
+#= depend_on bandlimits.csv
+
+$ = jQuery
+window.Netblp ||= {}
+
+template = """
+<div>
+  <div class="limits"></div>
+  <div class="message"></div>
+</div>
+"""
+
+bandlimits = <%= JSON.dump BandLimit.all %>
+
+class Netblp.BandLimitWidget
+  constructor: ->
+    @element = $(template)
+    @ui =
+      limits: @element.find ".limits"
+      message: @element.find ".message"
+
+    $('body').on "frequencychange", @onFrequencyChange
+    $('body').on "bandmodechange", @onBandModeChange
+
+    @refresh()
+
+  onFrequencyChange: (e, data)=>
+    @frequency = data.frequency
+    @frequencyString = data.string
+    @refresh()
+
+  onBandModeChange: (e, data)=>
+    @band = data.band
+    @mode = data.mode
+    @refresh()
+
+
+  refresh: =>
+    @bandlimit = null
+    for bandlimit in bandlimits
+      if bandlimit.name == @band && bandlimit.mode == @mode
+        @bandlimit = bandlimit
+        break
+
+    @element.removeClass "warning"
+    if @bandlimit == null
+      @element.addClass "warning"
+      @ui.limits.text "Band limits unknown"
+    else
+      @ui.limits.text "Band Limits for #{@band} #{@mode}: #{@bandlimit.lower} to #{@bandlimit.upper}"
+
+      console.log @bandlimit
+      console.log @frequency
+      if @frequency < @bandlimit.lower || @frequency > @bandlimit.upper
+        @element.addClass "warning"
+        @ui.message.text "OUT OF BAND!"
+      else if !@frequency
+        @element.addClass "warning"
+        @ui.message.text "Frequency Unknown!"
+      else
+        @ui.message.text ""

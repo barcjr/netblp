@@ -65,3 +65,4 @@ class Netblp.FrequencyWidget
     freq = @getFrequency()
     @ui.input.val @formatFrequency(freq)
     @ui.value.val(if isNaN(freq) then "" else freq)
+    @element.trigger "frequencychange", {frequency: freq, string: @formatFrequency(freq)}
