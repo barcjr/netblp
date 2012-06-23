@@ -6,7 +6,7 @@ template = """
   <div><span class="label"></span><span class="note"></span></div>
   <label>
     <span class="label">Radio</span>
-    <select name="radio"></select>
+    <select name="radio" disabled></select>
   </label>
 </div>
 """
@@ -40,6 +40,7 @@ class Netblp.RadioWidget
     for radio in data.radios
       $("<option></option>").attr("value", radio.name).text(radio.name).appendTo @ui.input
     @ui.input.val(value)
+    @ui.input.val window.localStorage["blpRadio"] if window.localStorage["blpRadio"]
   
   onError: =>
     alert "Could not load radios"
