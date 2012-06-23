@@ -55,7 +55,7 @@ class Netblp.BandLimitWidget
         @element.addClass "warning"
         @ui.message.text "OUT OF BAND!"
       else if !@frequency
-        @element.addClass "warning"
+        @element.addClass "warning" unless window.localStorage.disableRigblp
         @ui.message.text "Frequency Unknown!"
       else
         @ui.message.text ""
