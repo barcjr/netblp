@@ -1,0 +1,20 @@
+<h1>Sections</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Section</th>
+      <th>Name</th>
+      <th>Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @sections.each do |section| %>
+      <tr>
+        <td><%= section[:code] %></td>
+        <td><%= section[:name] %></td>
+        <td><%= section[:count] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
