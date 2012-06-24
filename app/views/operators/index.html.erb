@@ -1,0 +1,18 @@
+<h1>Contact Counts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Operator (or Logger)</th>
+      <th>Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @counts.each do |op, count| %>
+      <tr>
+        <td><%= op %></td>
+        <td><%= count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

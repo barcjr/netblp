@@ -2,6 +2,7 @@ Netblp::Application.routes.draw do
   resources :books, only: [:show] do
     resources :contacts, only: [:index]
     resources :sections, only: [:index]
+    resources :operators, only: [:index]
   end
 
   namespace :v1 do
