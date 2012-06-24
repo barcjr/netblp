@@ -5,9 +5,9 @@ class SectionsController < ApplicationController
 
   def index
     @section_counts = @book.contacts.reorder(nil).group(:section).count
-    @section_times = @book.contacts.reorder(nil).select("section, MAX(timestamp) AS timestamp").group(:section)
+    @section_times = Hash[@book.contacts.reorder(nil).group(:section).select("section, MIN(timestamp) AS timestamp").map{ |contact| [contact.section, contact.timestamp] }]
     @sections = Section.all.map do |section|
-      {code: section.code, name: section.name, count: @section_counts[section.code]}
+      {code: section.code, name: section.name, count: @section_counts[section.code], timestamp: @section_times[section.code]}
     end
     respond_with @sections
   end
