@@ -117,6 +117,7 @@ class Netblp.ContactEntryView
       url: "/v1#{location.pathname}/stations/#{callsign}"
       data: {band: @band, mode: @mode}
       success: (data) =>
+        return unless @ui.callsign.ui.input.val().toUpperCase() == callsign
         @ui.category.ui.input.val(data.category).change()
         @ui.section.ui.input.val(data.section).change()
         if data.dupe
